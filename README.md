@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MC Lại Gia Định – Người Nhiệt Huyết (Landing page)
 
-## Getting Started
+Landing page đen–vàng, clone bố cục từ honggammc.com, ghép asset của MC Lại Gia Định.
 
-First, run the development server:
+**Tech stack:** Next.js (App Router) · TypeScript · Tailwind CSS v4 · `next/image` · `next/font` (Rokkitt + Montserrat).
+Không dùng backend/CMS: toàn bộ nội dung nằm trong `src/data/*.ts` nên sửa nhanh, deploy tĩnh lên Vercel.
+
+## Chạy local
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # kiểm tra build trước khi deploy
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Sửa nội dung ở đâu?
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Muốn sửa | File |
+|---|---|
+| Tên, slogan, chiều cao/cân nặng, **số điện thoại / Zalo / Facebook**, SEO | `src/data/site.ts` |
+| Danh sách video (YouTube ID, poster) | `src/data/videos.ts` |
+| Logo / tên khách hàng | `src/data/clients.ts` |
+| Slide Portfolio, 3 khối "Chuyên nghiệp/Trẻ trung/Sáng tạo" | `src/data/portfolio.ts` |
+| Album ảnh | `src/data/albums.ts` |
+| Ảnh feedback (rỗng → tự ẩn section) | `src/data/feedback.ts` |
+| Màu sắc, font, nút | `src/app/globals.css` (khối `@theme`) |
+| Thứ tự / bật tắt section | `src/app/page.tsx` |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Nội dung song ngữ dùng dạng `{ vi: "...", en: "..." }` (nút VI/EN trên menu).
 
-## Learn More
+## Cấu trúc
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+├─ app/            layout.tsx (font, SEO) · page.tsx (ghép section) · globals.css (theme)
+├─ components/
+│  ├─ layout/      Header, Footer
+│  ├─ sections/    Hero, About, VideoShowcase, Clients, Portfolio, Feedback, Albums
+│  ├─ video/       VideoCard, VideoModal
+│  └─ ui/          SectionHeading, Carousel, Lightbox, Reveal
+├─ data/           ← nơi sửa nội dung
+└─ lib/            i18n.tsx (song ngữ), media.ts (URL video)
+public/images/     hero-mc · photos (30 ảnh) · portfolio (trang PDF) · posters (bìa video)
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Video (quan trọng)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Video gốc 60–400 MB, **không nên đưa vào repo/Vercel**. Hai cách:
 
-## Deploy on Vercel
+1. **YouTube (khuyên dùng):** upload (có thể để "Không công khai"), rồi thêm `youtubeId: "xxxx"` vào mục tương ứng trong `src/data/videos.ts`.
+2. **Tự host file:** upload lên Cloudflare R2 / Vercel Blob, đặt biến môi trường `NEXT_PUBLIC_VIDEO_BASE_URL` (file lấy tại `${BASE}/videos/v1.mp4`…).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Khi chạy local, thư mục `public/videos` đang là symlink tới video gốc (đã `.gitignore`).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deploy lên Vercel
+
+1. Đẩy code lên GitHub (`git add . && git commit && git push`).
+2. vercel.com → **Add New → Project** → chọn repo → Deploy (không cần cấu hình thêm).
+3. Sửa nội dung → push → Vercel tự build lại.

@@ -1,26 +1,143 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/* ============================================================
+   THEME — Đen & Vàng. Đổi màu toàn site chỉ cần sửa ở đây.
+   ============================================================ */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-ink: #070707;
+  --color-coal: #0e0d0b;
+  --color-panel: #17150f;
+  --color-line: #3a3220;
+  --color-gold: #c9a24d;
+  --color-gold-light: #f0d48a;
+  --color-gold-dark: #8f6f2c;
+  --color-cream: #f4ecd8;
+  --color-muted: #a59c88;
+
+  --font-display: var(--font-rokkitt), serif;
+  --font-sans: var(--font-montserrat), sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  scroll-behavior: smooth;
+}
+
+html {
+  scroll-padding-top: 5rem;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-ink);
+  color: var(--color-cream);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-gold);
+  color: #000;
+}
+
+@layer components {
+  .text-gold-gradient {
+    background: linear-gradient(120deg, #fff3d0 0%, #f0d48a 35%, #c9a24d 70%, #a97f2f 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .bg-gold-gradient {
+    background: linear-gradient(120deg, #f6dd9b 0%, #c9a24d 55%, #a97f2f 100%);
+  }
+
+  .container-page {
+    width: 100%;
+    max-width: 78rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .container-page {
+      padding-inline: 2rem;
+    }
+  }
+
+  .btn-gold {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.85rem 1.6rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #0b0905;
+    background: linear-gradient(120deg, #f6dd9b, #c9a24d 55%, #a97f2f);
+    border: 1px solid #e0bd6a;
+    transition: filter 0.25s, transform 0.25s;
+  }
+  .btn-gold:hover {
+    filter: brightness(1.12);
+    transform: translateY(-2px);
+  }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.85rem 1.6rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-gold-light);
+    border: 1px solid rgb(201 162 77 / 0.5);
+    transition: background 0.25s, border-color 0.25s, transform 0.25s;
+  }
+  .btn-ghost:hover {
+    background: rgb(201 162 77 / 0.12);
+    border-color: var(--color-gold-light);
+    transform: translateY(-2px);
+  }
+
+  .gold-frame {
+    border: 1px solid rgb(201 162 77 / 0.28);
+    background: linear-gradient(160deg, rgb(255 255 255 / 0.04), rgb(255 255 255 / 0));
+  }
+}
+
+/* Reveal on scroll */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  :root {
+    scroll-behavior: auto;
+  }
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+@keyframes scroll-cue {
+  0%, 100% { transform: scaleX(0.35); transform-origin: left; }
+  50% { transform: scaleX(1); transform-origin: left; }
+}
+.animate-scroll-cue {
+  animation: scroll-cue 2.4s ease-in-out infinite;
 }

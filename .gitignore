@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Video nặng: host ngoài (YouTube / R2 / Blob), không đưa vào repo
+/public/videos/*
+!/public/videos/.gitkeep
