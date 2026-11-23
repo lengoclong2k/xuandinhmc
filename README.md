@@ -52,6 +52,15 @@ Video gốc 60–400 MB, **không nên đưa vào repo/Vercel**. Hai cách:
 
 Khi chạy local, thư mục `public/videos` đang là symlink tới video gốc (đã `.gitignore`).
 
+## Trạng thái deploy hiện tại
+
+- Project Vercel: `xuandinhmc` (team `longln`), nối với repo GitHub `lengoclong2k/xuandinhmc`, push vào `main` là tự deploy.
+- Video đã nén (720p, ~16–45 MB/video) và lưu ở Vercel Blob store `mc-videos` (public) dưới `videos/v1.mp4 … v6.mp4`.
+  Biến môi trường `NEXT_PUBLIC_VIDEO_BASE_URL` trỏ tới store này.
+- Thay video: nén lại bằng ffmpeg rồi upload đè cùng tên (`vercel blob put videos/v1.mp4 --access public --force`),
+  hoặc đổi sang YouTube bằng `youtubeId` trong `src/data/videos.ts`.
+- Gói Hobby: Blob miễn phí 1 GB lưu + 10 GB tải/tháng, vượt mức thì Blob bị khoá ~30 ngày (không tính tiền).
+
 ## Deploy lên Vercel
 
 1. Đẩy code lên GitHub (`git add . && git commit && git push`).
